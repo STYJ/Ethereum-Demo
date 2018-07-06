@@ -1,0 +1,10 @@
+How to use Truffle
+
+1. mkdir
+2. truffle unbox <name of box> / truffle init
+
+* Note that if you can't use ganache, you can use truffle deploy but you need to configure. Ganache runs on port 8545 by default but some of Truffle's boxes have the network at port 7545.
+
+3. Write SC
+4. Compile
+5. Migrate
