@@ -2,6 +2,7 @@ App = {
   web3Provider: null,
   contracts: {},
 
+  // Load data in init
   init: function() {
     // Load pets.
     $.getJSON('../pets.json', function(data) {
@@ -23,25 +24,29 @@ App = {
     return App.initWeb3();
   },
 
+  // init web3
   initWeb3: function() {
     // Is there an injected web3 instance? e.g. MetaMask or Mist.
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider;
     } else {
-      // If no injected web3 instance is detected, fall back to Ganache
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+      // If no injected web3 instance is detected, create own web3 instance with our own local provider
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
     web3 = new Web3(App.web3Provider);
 
     return App.initContract();
   },
 
+  // init the contract so web3 knows where to find it and how it works
+  // Truffle has a library called truffle-contract to help with this by keeping
+  // information in the contract in sync with the migration
   initContract: function() {
     $.getJSON('Adoption.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       // Artifacts are information about our contract such as its deployed address and Application Binary Interface (ABI).
       var AdoptionArtifact = data;
-      App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+      App.contracts.Adoption = TruffleContract(AdoptionArtifact); // this creates an instance of the contract we can interact with
 
       // Set the provider for our contract
       App.contracts.Adoption.setProvider(App.web3Provider);
@@ -57,6 +62,7 @@ App = {
     $(document).on('click', '.btn-adopt', App.handleAdopt);
   },
 
+  // Separate function to handle pets that were already previously adopted
   markAdopted: function(adopters, account) {
     var adoptionInstance;
 
@@ -86,7 +92,7 @@ App = {
       if (error) {
         console.log(error);
       }
-
+      // select first accounts
       var account = accounts[0];
 
       App.contracts.Adoption.deployed().then(function(instance) {

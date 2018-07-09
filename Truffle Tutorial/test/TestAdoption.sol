@@ -3,7 +3,7 @@ pragma solidity ^0.4.17;
 // https://truffleframework.com/tutorials/pet-shop
 
 import "truffle/Assert.sol"; // assertions included with Truffle, global truffle file
-import "truffle/DeployedAddresses.sol"; // This SC gets the address of the deployed contract, globla truffle file
+import "truffle/DeployedAddresses.sol"; // This SC gets the address of the deployed contract, global truffle file
 import "../contracts/Adoption.sol";
 
 contract TestAdoption {
